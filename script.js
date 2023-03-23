@@ -6,9 +6,25 @@ const info = document.getElementById("info");
 const colorText = document.getElementById("color-text");
 const greyscaleText = document.getElementById("greyscale-text");
 
-function invertColor(rgb) {
-    return rgb(${ 255 - rgb[0] }, ${ 255 - rgb[1] }, ${ 255 - rgb[2] });
+function parseRGB(colorString) {
+    let rgbValues;
+
+    // Check for rgba format
+    if (/^rgba/.test(colorString)) {
+        rgbValues = colorString.slice(5, -1).split(", ").map(Number);
+    } else {
+        // Check for rgb format
+        rgbValues = colorString.slice(4, -1).split(", ").map(Number);
+    }
+
+    return rgbValues;
 }
+
+function invertColor(colorString) {
+    const rgb = parseRGB(colorString);
+    return `rgb(${255 - rgb[0]}, ${255 - rgb[1]}, ${255 - rgb[2]})`;
+}
+
 function updateBackgroundColor() {
     let bgColor, textColor;
     if (colorIndex === colors.length) {
