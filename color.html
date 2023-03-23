@@ -9,15 +9,21 @@
       margin: 0;
       transition: background-color 0.3s ease;
     }
-    #color-text {
+    #info {
       font-size: 3rem;
       text-align: center;
       margin-top: 40vh;
     }
+    #color-text, #greyscale-text {
+      display: block;
+    }
   </style>
 </head>
 <body>
-  <div id="color-text">Press Arrow Keys to Change Color</div>
+  <div id="info">
+    <span id="color-text">Color: -</span>
+    <span id="greyscale-text">Greyscale: -</span>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
