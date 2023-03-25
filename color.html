@@ -1,30 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Changing Website</title>
-  <style>
-    body {
-      margin: 0;
-      transition: background-color 0.3s ease;
-    }
-    #info {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      font-size: 1.5rem;
-    }
-    #color-text, #greyscale-text {
-      display: block;
-    }
-  </style>
-</head>
-<body>
-  <div id="info">
-    <span id="color-text">Color: -</span>
-    <span id="greyscale-text">Greyscale: -</span>
-  </div>
-  <script src="script.js"></script>
-</body>
+<html>
+  <head>
+    <title>Spectrometer Control</title>
+  </head>
+  <body>
+    <form>
+      <label for="color">Color:</label>
+      <input type="color" id="color" name="color" value="#000000">
+      <br>
+    
+      <label for="pattern">Pattern:</label>
+      <select id="pattern" name="pattern">
+        <option value="solid">Solid</option>
+        <option value="striped">Striped</option>
+        <option value="checkerboard">Checkerboard</option>
+      </select>
+      <br>
+    
+      <button type="button" onclick="sendCommand()">Send Command</button>
+    </form>
+    
+  </body>
 </html>
+<script>
+  function sendCommand() {
+    var color = document.getElementById("color").value;
+    var pattern = document.getElementById("pattern").value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/set_color_pattern?color=" + color + "&pattern=" + pattern, true);
+    xhr.send();
+  }
+</script>
