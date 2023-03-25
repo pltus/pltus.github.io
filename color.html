@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Spectrometer Control</title>
-  </head>
-  <body>
-    <form>
-      <label for="color">Color:</label>
-      <input type="color" id="color" name="color" value="#000000">
-      <br>
-    
-      <label for="pattern">Pattern:</label>
-      <select id="pattern" name="pattern">
-        <option value="solid">Solid</option>
-        <option value="striped">Striped</option>
-        <option value="checkerboard">Checkerboard</option>
-      </select>
-      <br>
-    
-      <button type="button" onclick="sendCommand()">Send Command</button>
-    </form>
-    
-  </body>
+<head>
+	<title>Pattern Display</title>
+	<style>
+		body {
+			background-color: black;
+		}
+		#square {
+			width: 10%;
+			height: 10%;
+			background-color: rgb(255, 255, 255);
+			position: absolute;
+			top: 45%;
+			left: 45%;
+			transform: translate(-50%, -50%);
+		}
+	</style>
+</head>
+<body>
+	<div id="square"></div>
+	<button onclick="changeColor()">Change Color</button>
+	<script>
+		function changeColor() {
+			var r = prompt("Enter red value (0-255):");
+			var g = prompt("Enter green value (0-255):");
+			var b = prompt("Enter blue value (0-255):");
+			var square = document.getElementById("square");
+			square.style.backgroundColor = "rgb(" + r + ", " + g + ", " + b + ")";
+		}
+	</script>
+</body>
 </html>
-<script>
-  function sendCommand() {
-    var color = document.getElementById("color").value;
-    var pattern = document.getElementById("pattern").value;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/set_color_pattern?color=" + color + "&pattern=" + pattern, true);
-    xhr.send();
-  }
-</script>
