@@ -1,64 +1,56 @@
-let colorIndex = 0;
-let greyscale = 0;
-const colors = ["red", "green", "blue", "white"];
-
+const redInput = document.getElementById("red");
+const greenInput = document.getElementById("green");
+const blueInput = document.getElementById("blue");
+const applyButton = document.getElementById("applyColorBtn");
+const square = document.getElementById("square");
 const info = document.getElementById("info");
-const colorText = document.getElementById("color-text");
-const greyscaleText = document.getElementById("greyscale-text");
 
-function parseRGB(colorString) {
-    let rgbValues;
-
-    // Check for rgba format
-    if (/^rgba/.test(colorString)) {
-        rgbValues = colorString.slice(5, -1).split(", ").map(Number);
-    } else {
-        // Check for rgb format
-        rgbValues = colorString.slice(4, -1).split(", ").map(Number);
-    }
-
-    return rgbValues;
+function clampChannel(value) {
+	const num = Number(value);
+	if (!Number.isFinite(num) || Number.isNaN(num)) {
+		return null;
+	}
+	return Math.min(255, Math.max(0, Math.round(num)));
 }
 
-function invertColor(colorString) {
-    const rgb = parseRGB(colorString);
-    return `rgb(${255 - rgb[0]}, ${255 - rgb[1]}, ${255 - rgb[2]})`;
+function buildRgbString(r, g, b) {
+	return `rgb(${r}, ${g}, ${b})`;
 }
 
-function updateBackgroundColor() {
-    let bgColor, textColor;
-    if (colorIndex === colors.length) {
-        bgColor = rgb(${ greyscale }, ${ greyscale }, ${ greyscale });
-        textColor = invertColor([greyscale, greyscale, greyscale]);
-        colorText.textContent = "Color: Greyscale";
-    } else {
-        bgColor = colors[colorIndex];
-        textColor = invertColor(window.getComputedStyle(document.body).backgroundColor.match(/\d+/g).map(Number));
-        colorText.textContent = Color: ${ colors[colorIndex].charAt(0).toUpperCase() + colors[colorIndex].slice(1) };
-    }
-    greyscaleText.textContent = Greyscale: ${ greyscale };
-    document.body.style.backgroundColor = bgColor;
-    colorText.style.color = textColor;
-    greyscaleText.style.color = textColor;
+function updateBackground({ r, g, b }) {
+	const color = buildRgbString(r, g, b);
+	document.body.style.backgroundColor = color;
+	square.style.backgroundColor = color;
+	if (info) {
+		info.textContent = `현재 색상: (${r}, ${g}, ${b})`;
+	}
 }
 
-document.addEventListener("keydown", function (event) {
-    const key = event.key;
-    if (key === "ArrowLeft") {
-        colorIndex = (colorIndex + colors.length - 1) % colors.length;
-    } else if (key === "ArrowRight") {
-        colorIndex = (colorIndex + 1) % colors.length;
-    } else if (key === "ArrowUp") {
-        greyscale = Math.min(255, greyscale + 1);
-        colorIndex = colors.length; // Set to greyscale mode
-    } else if (key === "ArrowDown") {
-        greyscale = Math.max(0, greyscale - 1);
-        colorIndex = colors.length; // Set to greyscale mode
-    } else if (key === " ") {
-        // Toggle visibility of text
-        info.style.display = info.style.display === "none" ? "block" : "none";
-    } else {
-        return; // Do nothing for other keys
-    }
-    updateBackgroundColor();
+function applyColorFromInputs() {
+	const r = clampChannel(redInput.value);
+	const g = clampChannel(greenInput.value);
+	const b = clampChannel(blueInput.value);
+
+	if (r === null || g === null || b === null) {
+		if (info) info.textContent = "RGB 값은 숫자여야 합니다.";
+		return;
+	}
+
+	redInput.value = r;
+	greenInput.value = g;
+	blueInput.value = b;
+	updateBackground({ r, g, b });
+}
+
+if (applyButton) {
+	applyButton.addEventListener("click", applyColorFromInputs);
+}
+
+document.addEventListener("keydown", (event) => {
+	if (!applyButton) return;
+	if (event.key === "Enter") {
+		applyColorFromInputs();
+	}
 });
+
+applyColorFromInputs();
