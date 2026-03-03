@@ -349,6 +349,12 @@ h1 {
 	background: transparent;
 }
 
+
+body.color-page-mode {
+	background-image: none !important;
+	background: #ffffff !important;
+}
+
 /* Keep color lab page controls clean and readable */
 #square {
 	width: 180px;
