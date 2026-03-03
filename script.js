@@ -19,8 +19,10 @@ function buildRgbString(r, g, b) {
 
 function updateBackground({ r, g, b }) {
 	const color = buildRgbString(r, g, b);
+	if (document.body.classList.contains('color-page-mode')) {
+		document.body.style.backgroundImage = 'none';
+	}
 	document.body.style.backgroundColor = color;
-	document.body.style.backgroundImage = "none";
 	square.style.backgroundColor = color;
 	if (info) {
 		info.textContent = `현재 색상: (${r}, ${g}, ${b})`;

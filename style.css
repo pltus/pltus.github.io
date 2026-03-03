@@ -351,8 +351,8 @@ h1 {
 
 
 body.color-page-mode {
-	background-image: none !important;
-	background: #ffffff !important;
+	background-image: none;
+	background-color: transparent;
 }
 
 /* Keep color lab page controls clean and readable */
