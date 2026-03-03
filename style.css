@@ -444,6 +444,12 @@ body.color-page-mode {
 	background-color: transparent;
 }
 
+body.color-page-mode::before {
+	content: none;
+	display: none;
+	opacity: 0;
+}
+
 /* Keep color lab page controls clean and readable */
 #square {
 	width: 180px;
